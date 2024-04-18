@@ -5,6 +5,13 @@ from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import SimpleRNN, Dense
 import matplotlib.pyplot as plt
 
+# Set random seeds for reproducibility
+np.random.seed(7)
+import random
+random.seed(7)
+import tensorflow as tf
+tf.random.set_seed(7)
+
 # Load the dataset
 data = pd.read_excel('a_data.xlsx') 
 
@@ -44,7 +51,7 @@ model = Sequential([
 model.compile(optimizer='adam', loss='mse')
 
 # Training the model
-model.fit(X_train, y_train, epochs=10, batch_size=32)
+model.fit(X_train, y_train, epochs=20, batch_size=32, verbose=0)  # Set verbose=0 for no output
 
 # Create sequences for testing
 X_test, y_test = create_sequences(test_precipitation, seq_length)
@@ -56,13 +63,16 @@ predicted_precipitation_scaled = model.predict(X_test)
 predicted_precipitation = scaler.inverse_transform(predicted_precipitation_scaled)
 
 # Plotting
-plt.figure(figsize=(10, 6))
-plt.plot(test_data.index, test_precipitation, label='Original')
-plt.plot(test_data.index[seq_length:], predicted_precipitation, label='Predicted')
-plt.xlabel('Time')
+plt.figure(figsize=(12, 6))
+plt.plot(test_data['Year/Month'].iloc[seq_length:], test_precipitation[seq_length:], label='Original', marker='o')
+plt.plot(test_data['Year/Month'].iloc[seq_length:], predicted_precipitation, label='Predicted', marker='x')
+plt.xlabel('Year/Month')
 plt.ylabel('Total Precipitation')
 plt.title('Total Precipitation Prediction from 2005 to 2010')
+plt.xticks(rotation=45)
 plt.legend()
+plt.grid(True)
+plt.tight_layout()
 plt.show()
 
 # Calculate error
