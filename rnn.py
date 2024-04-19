@@ -3,6 +3,7 @@ import pandas as pd
 from sklearn.preprocessing import MinMaxScaler
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import SimpleRNN, Dense
+from tensorflow.keras.optimizers import RMSprop
 import matplotlib.pyplot as plt
 
 # Set random seeds for reproducibility
@@ -47,8 +48,9 @@ model = Sequential([
     Dense(1)
 ])
 
-# Compile the model
-model.compile(optimizer='adam', loss='mse')
+# Compile the model using RMSprop optimizer
+optimizer = RMSprop(learning_rate=0.01)
+model.compile(optimizer=optimizer, loss='mse')
 
 # Training the model
 model.fit(X_train, y_train, epochs=20, batch_size=32, verbose=0)  # Set verbose=0 for no output
