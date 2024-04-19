@@ -1,12 +1,31 @@
-# rain_prediction
-This is a predition model of rain percipitation using machine learning
+# Rain Precipitation Prediction
 
-To execute the model execute the following code
+Predict rain using ANN, CNN, and RNN.
 
-!git clone https://github.com/dharaneshwaran7/rain_prediction.git
+## To run the model
 
-!cd rain_prediction
+```bash
+git clone https://github.com/dharaneshwaran7/rain_prediction.git
+cd rain_prediction
+```
+to run cnn model
 
-!python rnn.py
+```bash
+python cnn.py
+```
 
-I have used RNN model in this and also set the random seed.
+to run rnn model
+
+```bash
+python rnn.py
+```
+
+to run ann model
+
+```bash
+python ann.py
+```
+
+Contact
+GitHub: dharaneshwaran7
+Email: dharaneshwaran7@gmail.com
