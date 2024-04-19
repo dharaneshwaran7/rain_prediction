@@ -27,5 +27,5 @@ python ann.py
 ```
 
 Contact
-GitHub: dharaneshwaran7
+GitHub: github.com/dharaneshwaran7
 Email: dharaneshwaran7@gmail.com
