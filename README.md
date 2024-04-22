@@ -5,9 +5,13 @@ Predict rain using ANN, CNN, and RNN.
 ## To run the model
 
 ```bash
-git clone https://github.com/dharaneshwaran7/rain_prediction.git
+!git clone https://github.com/dharaneshwaran7/rain_prediction.git
+```
+
+```bash
 cd rain_prediction
 ```
+
 to run cnn model
 
 ```bash
