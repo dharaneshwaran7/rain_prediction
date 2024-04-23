@@ -7,11 +7,11 @@ from tensorflow.keras.optimizers import RMSprop
 import matplotlib.pyplot as plt
 
 # Set random seeds for reproducibility
-np.random.seed(7)
+np.random.seed(22)
 import random
-random.seed(7)
+random.seed(22)
 import tensorflow as tf
-tf.random.set_seed(7)
+tf.random.set_seed(22)
 
 # Load the dataset
 data = pd.read_excel('a_data.xlsx') 
@@ -45,15 +45,15 @@ X_train, y_train = create_sequences(train_precipitation_scaled, seq_length)
 # Model Building
 model = Sequential([
     SimpleRNN(64, input_shape=(seq_length, 1)),
+    Dense(3),
     Dense(1)
 ])
 
-# Compile the model using RMSprop optimizer
-optimizer = RMSprop(learning_rate=0.01)
-model.compile(optimizer=optimizer, loss='mse')
+# Compile the model
+model.compile(optimizer='adam', loss='mse')
 
 # Training the model
-model.fit(X_train, y_train, epochs=20, batch_size=32, verbose=0)  # Set verbose=0 for no output
+model.fit(X_train, y_train, epochs=30, batch_size=32, verbose=0)  # Set verbose=0 for no output
 
 # Create sequences for testing
 X_test, y_test = create_sequences(test_precipitation, seq_length)
@@ -80,3 +80,7 @@ plt.show()
 # Calculate error
 error = np.mean(np.abs(predicted_precipitation - test_precipitation[seq_length:]))
 print("Mean Absolute Error:", error)
+
+# Calculate RMSE
+rmse = np.sqrt(np.mean((predicted_precipitation - test_precipitation[seq_length:]) ** 2))
+print("Root Mean Square Error:", rmse)

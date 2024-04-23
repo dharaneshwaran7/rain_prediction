@@ -1,16 +1,15 @@
 import numpy as np
 import pandas as pd
 from sklearn.preprocessing import MinMaxScaler
-from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import LSTM, Dense
+from sklearn.svm import SVR
 import matplotlib.pyplot as plt
 
 # Set random seeds for reproducibility
-np.random.seed(100)
+np.random.seed(2)
 import random
-random.seed(100)
+random.seed(2)
 import tensorflow as tf
-tf.random.set_seed(100)
+tf.random.set_seed(2)
 
 # Load the dataset
 data = pd.read_excel('a_data.xlsx') 
@@ -42,26 +41,19 @@ seq_length = 12  # Assuming monthly data, 12 months make a year
 # Create sequences for training
 X_train, y_train = create_sequences(train_precipitation_scaled, seq_length)
 
-# Reshape the data for LSTM
-X_train = X_train.reshape(X_train.shape[0], X_train.shape[1], 1)
+# Flatten the data for SVR
+X_train = X_train.reshape(X_train.shape[0], X_train.shape[1])
 X_test, y_test = create_sequences(test_precipitation_scaled, seq_length)
-X_test = X_test.reshape(X_test.shape[0], X_test.shape[1], 1)
+X_test = X_test.reshape(X_test.shape[0], X_test.shape[1])
 
 # Model Building
-model = Sequential([
-    LSTM(64, activation='relu', input_shape=(seq_length, 1), return_sequences=True),
-    LSTM(32, activation='relu'),
-    Dense(1)
-])
-
-# Compile the model
-model.compile(optimizer='adam', loss='mse')
+model = SVR(kernel='rbf', C=1e3, gamma=0.1)
 
 # Training the model
-model.fit(X_train, y_train, epochs=100, batch_size=32, verbose=0)  # Set verbose=0 for no output
+model.fit(X_train, y_train.ravel())
 
 # Make predictions
-predicted_precipitation_scaled = model.predict(X_test)
+predicted_precipitation_scaled = model.predict(X_test).reshape(-1, 1)
 
 # Inverse scaling the predicted precipitation data
 predicted_precipitation = scaler.inverse_transform(predicted_precipitation_scaled)
@@ -72,7 +64,7 @@ plt.plot(test_data['Year/Month'].iloc[seq_length:], test_precipitation[seq_lengt
 plt.plot(test_data['Year/Month'].iloc[seq_length:], predicted_precipitation, label='Predicted', marker='x')
 plt.xlabel('Year/Month')
 plt.ylabel('Total Precipitation')
-plt.title('Total Precipitation Prediction from 2005 to 2010 using LSTM')
+plt.title('Total Precipitation Prediction from 2005 to 2010 using SVR')
 plt.xticks(rotation=45)
 plt.legend()
 plt.grid(True)

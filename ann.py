@@ -82,3 +82,7 @@ plt.show()
 # Calculate error
 error = np.mean(np.abs(predicted_precipitation - test_precipitation[seq_length:]))
 print("Mean Absolute Error:", error)
+
+# Calculate RMSE
+rmse = np.sqrt(np.mean((predicted_precipitation - test_precipitation[seq_length:]) ** 2))
+print("Root Mean Square Error:", rmse)
