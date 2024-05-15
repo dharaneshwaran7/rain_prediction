@@ -30,6 +30,30 @@ to run ann model
 python ann.py
 ```
 
+to run svr model
+
+```bash
+python svr.py
+```
+
+to run lstm model
+
+```bash
+python lstm.py
+```
+
+to run knn model
+
+```bash
+python knn.py
+```
+
+to run elstm model
+
+```bash
+python elstm.py
+```
+
 Contact
 GitHub: [github.com/dharaneshwaran7](https://github.com/dharaneshwaran7)
 Email: dharaneshwaran7@gmail.com
